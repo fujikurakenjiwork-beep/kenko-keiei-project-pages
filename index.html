@@ -120,10 +120,16 @@ footer a{color:var(--navy)}
 .js .fade{opacity:0;transform:translateY(14px)}
 .js .fade.on{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .fade{opacity:1;transform:none}}
+
+/* 確認用のお知らせ帯（正式公開時に削除） */
+.review{background:#fff4cc;color:var(--ink);font-size:13px;line-height:1.6;text-align:center;padding:8px var(--pad);border-bottom:1px solid #f0dc8a}
+.review strong{color:var(--ink)}
 </style>
 </head>
 
 <body>
+<!-- 確認用のお知らせ帯：正式公開時にこのブロックと .review のCSSを削除する -->
+<div class="review" role="note"><strong>確認用の仮版です。</strong>電話番号・所在地・相談フォームはまだ仮のため、つながりません。ご意見はLINEでお送りください。</div>
 <header>
   <div class="wrap bar">
     <a href="#" class="logo">健康経営プロジェクト<small>中小建設業の認定取得 伴走支援</small></a>
