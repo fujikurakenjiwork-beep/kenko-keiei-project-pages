@@ -104,6 +104,41 @@ nav a:hover{color:var(--accent)}
 
 /* 3段階の図（「なぜ今か」セクション内） */
 .stage{max-width:520px;margin:clamp(32px,5vw,48px) auto 0}
+
+/* ---- 写真のマーキー ----
+   ・同じ並びを2回続け、トラック全体を -50% 動かして継ぎ目なくループさせる
+   ・ホバーやスクロールで止めない（animation-play-state を変えない／pointer-events を切る）
+   ・写真はすべて 16:9・同じ高さに揃える */
+.marquee-band{
+  position:relative;padding:clamp(18px,3vw,32px) 0;
+  background:linear-gradient(180deg,#e9eff6 0%,#f6f8fb 100%);
+}
+.marquee-band.is-reverse{background:linear-gradient(180deg,var(--bg-alt) 0%,#e9eff6 100%)}
+.marquee{
+  --h:clamp(130px,17vw,220px);
+  --gap:clamp(10px,1.4vw,18px);
+  --dur:56s;
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%);
+}
+.marquee-track{
+  display:flex;width:max-content;
+  animation:marquee-x var(--dur) linear infinite;
+  will-change:transform;pointer-events:none;
+}
+.marquee-band.is-reverse .marquee-track{animation-direction:reverse}
+.marquee-list{display:flex;gap:var(--gap);padding:0 var(--gap) 0 0;margin:0;list-style:none}
+.marquee-list li{
+  flex:none;height:var(--h);aspect-ratio:16/9;border-radius:12px;overflow:hidden;position:relative;
+  box-shadow:0 12px 28px -16px rgba(20,50,90,.45);
+}
+.marquee-list li::after{content:"";position:absolute;inset:0;border-radius:12px;pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(184,145,63,.35)}
+.marquee-list img{display:block;width:100%;height:100%;object-fit:cover}
+@keyframes marquee-x{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+/* 動きを減らす設定の端末では止めずに、ゆっくり流す */
+@media(prefers-reduced-motion:reduce){.marquee{--dur:140s}}
 .hero h1{font-size:clamp(30px,6vw,52px);font-size:clamp(28px,4.4vw,46px);line-height:1.3;font-weight:800;color:var(--navy);margin-bottom:.5em;letter-spacing:.01em}
 .hero h1 em{font-style:normal;color:var(--accent)}
 .nw{display:inline-block}
@@ -210,6 +245,30 @@ footer a{color:var(--navy)}
       </figure>
     </div>
   </section>
+
+  <!-- 写真のマーキー：同じ並びを2回続けて、継ぎ目なく流す。ホバーやスクロールでは止まらない -->
+  <div class="marquee-band">
+    <div class="marquee" role="region" aria-label="現場とサポート窓口の写真">
+      <div class="marquee-track">
+        <ul class="marquee-list">
+        <li><img src="./assets/marquee/m1-480.jpg" srcset="./assets/marquee/m1-480.jpg 480w, ./assets/marquee/m1-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="建設現場の足場で、作業員3人が点検内容を確認している様子" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m2-480.jpg" srcset="./assets/marquee/m2-480.jpg 480w, ./assets/marquee/m2-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="ヘッドセットを着けて、笑顔で電話対応するスタッフ" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m4-480.jpg" srcset="./assets/marquee/m4-480.jpg 480w, ./assets/marquee/m4-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="建設現場で図面を囲み、打ち合わせをする作業員たち" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m3-480.jpg" srcset="./assets/marquee/m3-480.jpg 480w, ./assets/marquee/m3-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="オフィスでヘッドセットを着け、笑顔で相談に応じるスタッフ" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m5-480.jpg" srcset="./assets/marquee/m5-480.jpg 480w, ./assets/marquee/m5-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="クリップボードを手に、重機のある建設現場を見上げる現場監督" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m6-480.jpg" srcset="./assets/marquee/m6-480.jpg 480w, ./assets/marquee/m6-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="建設現場で上を指さしながら、笑顔で話し合う作業員たち" decoding="async" draggable="false"></li>
+        </ul>
+        <ul class="marquee-list" aria-hidden="true">
+        <li><img src="./assets/marquee/m1-480.jpg" srcset="./assets/marquee/m1-480.jpg 480w, ./assets/marquee/m1-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m2-480.jpg" srcset="./assets/marquee/m2-480.jpg 480w, ./assets/marquee/m2-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m4-480.jpg" srcset="./assets/marquee/m4-480.jpg 480w, ./assets/marquee/m4-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m3-480.jpg" srcset="./assets/marquee/m3-480.jpg 480w, ./assets/marquee/m3-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m5-480.jpg" srcset="./assets/marquee/m5-480.jpg 480w, ./assets/marquee/m5-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m6-480.jpg" srcset="./assets/marquee/m6-480.jpg 480w, ./assets/marquee/m6-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="" decoding="async" draggable="false"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
   <section id="why">
     <div class="wrap">
@@ -329,6 +388,30 @@ footer a{color:var(--navy)}
       </div>
     </div>
   </section>
+
+  <!-- 写真のマーキー：同じ並びを2回続けて、継ぎ目なく流す。ホバーやスクロールでは止まらない -->
+  <div class="marquee-band is-reverse">
+    <div class="marquee" role="region" aria-label="現場とサポート窓口の写真（2）">
+      <div class="marquee-track">
+        <ul class="marquee-list">
+        <li><img src="./assets/marquee/m4-480.jpg" srcset="./assets/marquee/m4-480.jpg 480w, ./assets/marquee/m4-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="建設現場で図面を囲み、打ち合わせをする作業員たち" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m6-480.jpg" srcset="./assets/marquee/m6-480.jpg 480w, ./assets/marquee/m6-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="建設現場で上を指さしながら、笑顔で話し合う作業員たち" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m2-480.jpg" srcset="./assets/marquee/m2-480.jpg 480w, ./assets/marquee/m2-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="ヘッドセットを着けて、笑顔で電話対応するスタッフ" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m5-480.jpg" srcset="./assets/marquee/m5-480.jpg 480w, ./assets/marquee/m5-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="クリップボードを手に、重機のある建設現場を見上げる現場監督" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m1-480.jpg" srcset="./assets/marquee/m1-480.jpg 480w, ./assets/marquee/m1-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="建設現場の足場で、作業員3人が点検内容を確認している様子" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m3-480.jpg" srcset="./assets/marquee/m3-480.jpg 480w, ./assets/marquee/m3-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="オフィスでヘッドセットを着け、笑顔で相談に応じるスタッフ" decoding="async" draggable="false"></li>
+        </ul>
+        <ul class="marquee-list" aria-hidden="true">
+        <li><img src="./assets/marquee/m4-480.jpg" srcset="./assets/marquee/m4-480.jpg 480w, ./assets/marquee/m4-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m6-480.jpg" srcset="./assets/marquee/m6-480.jpg 480w, ./assets/marquee/m6-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m2-480.jpg" srcset="./assets/marquee/m2-480.jpg 480w, ./assets/marquee/m2-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m5-480.jpg" srcset="./assets/marquee/m5-480.jpg 480w, ./assets/marquee/m5-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m1-480.jpg" srcset="./assets/marquee/m1-480.jpg 480w, ./assets/marquee/m1-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="" decoding="async" draggable="false"></li>
+        <li><img src="./assets/marquee/m3-480.jpg" srcset="./assets/marquee/m3-480.jpg 480w, ./assets/marquee/m3-800.jpg 800w" sizes="(max-width: 640px) 232px, 392px" width="800" height="450" alt="" decoding="async" draggable="false"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
   <section id="contact" class="cta">
     <div class="wrap">
