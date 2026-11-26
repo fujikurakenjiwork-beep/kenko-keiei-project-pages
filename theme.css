@@ -1,0 +1,156 @@
+/* =========================================================
+   テーマ：深いロイヤルネイビー × エメラルド × ゴールド
+   ・index.html のインラインCSSの上から重ねる（このファイルを外せば元の見た目に戻る）
+   ・動きは transform と opacity だけで作り、スマホでは光の数と大きさを減らす
+   ========================================================= */
+:root{
+  --navy:#0a2a66;
+  --navy-deep:#061a42;
+  --royal:#1747b8;
+  --accent:#0a8a5f;
+  --mint:#3fd0a0;
+  --gold:#c9a24a;
+  --gold-l:#ecd59a;
+  --bg-alt:#eef3fb;
+  --ink:#0c1a30;
+  --ink-sub:#3f4b5e;
+  --line:#d8e0ec;
+  --grad-brand:linear-gradient(120deg,var(--navy) 0%,var(--royal) 45%,var(--accent) 100%);
+  --grad-btn:linear-gradient(135deg,#12a873 0%,#0a8a5f 50%,#06684a 100%);
+  --shadow-card:0 18px 40px -24px rgba(10,42,102,.35),0 2px 6px -2px rgba(10,42,102,.08);
+}
+
+/* ---------- ヘッダー：上端に流れるグラデーションライン ---------- */
+header{background:rgba(255,255,255,.9);border-bottom-color:rgba(10,42,102,.08)}
+header::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  background:linear-gradient(90deg,var(--navy),var(--royal),var(--mint),var(--gold),var(--navy));
+  background-size:200% 100%;animation:fx-line 10s linear infinite;
+}
+@keyframes fx-line{to{background-position:-200% 0}}
+.logo{color:var(--navy)}
+
+/* ---------- ボタン ---------- */
+.btn{border-radius:999px;background:var(--grad-btn);box-shadow:0 10px 22px -10px rgba(6,104,74,.6);
+  transition:transform .2s ease,box-shadow .2s ease,opacity .2s ease}
+.btn:hover{opacity:1;transform:translateY(-2px);box-shadow:0 14px 26px -10px rgba(6,104,74,.7)}
+.btn.ghost{background:transparent;box-shadow:none;border-width:1.5px}
+
+/* ---------- 動く光（fx-aurora）：濃紺の帯の背後で、3つの光がゆっくり漂う ---------- */
+.fx-aurora{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;contain:paint}
+.fx-aurora span{
+  position:absolute;border-radius:50%;
+  width:var(--s,60vw);height:var(--s,60vw);
+  background:radial-gradient(circle at center,var(--c) 0%,transparent 68%);
+  opacity:var(--o,.55);will-change:transform;
+  animation:fx-drift var(--d,24s) ease-in-out infinite alternate;
+}
+.fx-aurora span:nth-child(1){--c:rgba(23,71,184,.95);--s:62vw;--d:22s;left:-18vw;top:-24vw}
+.fx-aurora span:nth-child(2){--c:rgba(63,208,160,.75);--s:52vw;--d:27s;right:-16vw;bottom:-26vw;animation-delay:-6s}
+.fx-aurora span:nth-child(3){--c:rgba(201,162,74,.65);--s:38vw;--d:31s;left:42%;top:-14vw;--o:.45;animation-delay:-12s}
+@keyframes fx-drift{
+  0%  {transform:translate3d(0,0,0) scale(1)}
+  50% {transform:translate3d(6vw,4vw,0) scale(1.12)}
+  100%{transform:translate3d(-4vw,7vw,0) scale(.95)}
+}
+.hero > .wrap,.movie > .wrap,.cta > .wrap{position:relative;z-index:1}
+
+/* ---------- ファーストビュー：濃紺の帯に切り替え ---------- */
+.hero{
+  color:#fff;
+  background:
+    linear-gradient(160deg,var(--navy-deep) 0%,var(--navy) 48%,#0b3a7a 100%);
+}
+.hero::before{ /* 斜めの細いライン（光の筋） */
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(115deg,rgba(255,255,255,.035) 0 1px,transparent 1px 22px);
+}
+.hero h1{color:#fff}
+/* h1 の上に置くキーワード行（検索向けに h1 の中に含める。見た目は小さな見出し） */
+.h1-kicker{display:block;margin-bottom:.75em;font-size:clamp(13px,1.25vw,15px);font-weight:700;line-height:1.5;letter-spacing:.08em;color:var(--gold-l)}
+.hero h1 em{color:transparent;background:linear-gradient(90deg,var(--mint),#9ff0d2 50%,var(--gold-l));
+  -webkit-background-clip:text;background-clip:text}
+.hero .lead{color:#d5e0f2}
+.tag{color:#fff;background:linear-gradient(rgba(255,255,255,.08),rgba(255,255,255,.08)) padding-box,
+  linear-gradient(90deg,var(--gold),var(--gold-l),var(--gold)) border-box}
+.hero .btn:not(.ghost){background:var(--grad-btn)}
+.hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.75)}
+.hero .btn.ghost:hover{background:rgba(255,255,255,.08)}
+.hero-frame{box-shadow:0 34px 70px -26px rgba(0,0,0,.7),0 0 0 1px rgba(236,213,154,.25)}
+
+/* ---------- 明るいセクション：淡い光とドット模様 ---------- */
+main > section:not(.hero):not(.movie):not(.cta){position:relative;overflow:hidden}
+main > section:not(.hero):not(.movie):not(.cta)::before{
+  content:"";position:absolute;pointer-events:none;z-index:0;border-radius:50%;
+  width:min(70vw,720px);height:min(70vw,720px);right:-18%;top:-30%;
+  background:radial-gradient(circle,rgba(23,71,184,.10),transparent 65%);
+}
+main > section:not(.hero):not(.movie):not(.cta)::after{
+  content:"";position:absolute;pointer-events:none;z-index:0;border-radius:50%;
+  width:min(60vw,560px);height:min(60vw,560px);left:-16%;bottom:-30%;
+  background:radial-gradient(circle,rgba(63,208,160,.12),transparent 65%);
+}
+main > section > .wrap{position:relative;z-index:1}
+.alt{
+  background:
+    radial-gradient(rgba(10,42,102,.07) 1px,transparent 1.2px) 0 0/22px 22px,
+    linear-gradient(180deg,#f3f7fd 0%,var(--bg-alt) 100%);
+}
+
+/* 見出しまわり */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;color:transparent;
+  background:var(--grad-brand);-webkit-background-clip:text;background-clip:text}
+.eyebrow::before{content:"";width:28px;height:2px;border-radius:2px;background:var(--grad-brand)}
+h2{color:var(--navy)}
+
+/* カード類 */
+.item{border-top:0;padding:22px 22px 20px;background:#fff;border-radius:14px;box-shadow:var(--shadow-card);position:relative;overflow:hidden}
+.item::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--grad-brand)}
+.law{border-left:0;border-radius:12px;box-shadow:var(--shadow-card);position:relative;overflow:hidden}
+.law::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--accent),var(--mint))}
+.support li{border-color:var(--line)}
+.support h3{color:var(--navy)}
+.support h3::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:10px;vertical-align:middle;
+  background:linear-gradient(135deg,var(--accent),var(--mint));transform:rotate(45deg)}
+.flow li{border:0;border-radius:14px;box-shadow:var(--shadow-card)}
+.flow li::before{background:linear-gradient(135deg,var(--royal),var(--navy));box-shadow:0 6px 14px -6px rgba(10,42,102,.6)}
+table{border-radius:14px;overflow:hidden;box-shadow:var(--shadow-card)}
+th{background:linear-gradient(90deg,#f1f5fc,#fff);color:var(--navy)}
+details{background:transparent}
+summary::before{color:var(--accent)}
+
+/* ---------- 写真のマーキー帯 ---------- */
+.marquee-band{background:linear-gradient(180deg,#e7eefb 0%,#f5f8fe 100%)}
+.marquee-band.is-reverse{background:linear-gradient(180deg,var(--bg-alt) 0%,#e3ebf9 100%)}
+.marquee-list li{box-shadow:0 14px 30px -16px rgba(10,42,102,.5)}
+
+/* ---------- 動画セクション ---------- */
+.movie{background:linear-gradient(150deg,var(--navy-deep) 0%,#0b2f6e 55%,#062452 100%)}
+.movie .btn{background:var(--grad-btn)}
+
+/* ---------- 最後の相談欄 ---------- */
+.cta{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy-deep) 0%,var(--navy) 50%,#063f5a 100%)}
+.cta::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold-l) 50%,var(--gold) 80%,transparent)}
+.cta .btn.ghost{border-color:rgba(255,255,255,.75)}
+
+/* ---------- フッター ---------- */
+footer{background:var(--navy-deep);color:#b9c6dc;border-top:0}
+footer p{color:#b9c6dc}
+footer a{color:#fff}
+
+/* ---------- スマホ：光を2つに減らし、小さく・ゆっくりに ---------- */
+@media (max-width:640px){
+  .fx-aurora span:nth-child(1){--s:120vw;left:-50vw;top:-40vw}
+  .fx-aurora span:nth-child(2){--s:110vw;right:-50vw;bottom:-50vw}
+  .fx-aurora span:nth-child(3){display:none}
+  .fx-aurora span{--d:32s}
+  main > section:not(.hero):not(.movie):not(.cta)::before{width:90vw;height:90vw;right:-40%;top:-20%}
+  main > section:not(.hero):not(.movie):not(.cta)::after{width:80vw;height:80vw;left:-40%;bottom:-20%}
+  .item{padding:20px 18px 18px}
+}
+
+/* ---------- 動きを減らす設定：背景の動きは止める（マーキーは別途ゆっくり流す） ---------- */
+@media (prefers-reduced-motion:reduce){
+  .fx-aurora span,header::before{animation:none}
+}

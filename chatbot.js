@@ -227,7 +227,7 @@
     panel.hidden = true;
 
     var head = el('div', 'kkbot-head',
-      '<span class="kkbot-avatar">' + ICON_BOT + '</span>' +
+      '<span class="kkbot-avatar"><img src="./assets/logo/mark-180.png" width="180" height="180" alt=""></span>' +
       '<div class="kkbot-title"><strong>健康経営プロジェクト</strong><small>チャットでご案内（自動応答）</small></div>');
     var close = el('button', 'kkbot-close', ICON_CLOSE);
     close.type = 'button';

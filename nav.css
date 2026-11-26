@@ -1,0 +1,128 @@
+/* =========================================================
+   ロゴ・SNSアイコン・スマホ用メニュー
+   ・幅1100px以下はハンバーガーメニュー（右からスライド）に切り替え
+   ・SNSのリンク先は nav.js の SNS で設定（空欄のあいだは「準備中」表示）
+   ========================================================= */
+
+/* ---------- ロゴ（背景透過PNG。明るい背景は通常版、濃い背景は文字が白の版） ---------- */
+.logo{display:inline-flex;align-items:center;flex:none;line-height:0}
+.logo img{display:block;height:40px;width:auto}
+.logo .sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(max-width:860px){.logo img{height:34px}}
+@media(max-width:380px){.logo img{height:29px}}
+
+/* ---------- ヘッダーの並び ---------- */
+.bar{justify-content:flex-start;gap:16px}
+.gnav{margin-left:auto}
+.gnav ul{gap:20px}
+.gnav a{font-weight:600;color:var(--ink-sub);position:relative;padding:6px 0}
+.gnav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:var(--grad-brand);
+  transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.gnav a:hover{color:var(--navy)}
+.gnav a:hover::after{transform:scaleX(1)}
+
+/* ---------- SNSアイコン ---------- */
+.sns{display:flex;align-items:center;gap:8px;list-style:none;margin:0;padding:0}
+.sns li{line-height:0}
+.sns-ico{display:block;width:30px;height:30px;border-radius:9px;transition:transform .2s ease,box-shadow .2s ease}
+.sns-ico svg{display:block;width:100%;height:100%}
+.sns-ico[data-sns="facebook"]{border-radius:50%}
+.sns-ico:hover{transform:translateY(-2px);box-shadow:0 8px 16px -8px rgba(10,42,102,.55)}
+.sns-ico:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+.sns--head{gap:6px;flex:none}
+.sns--head .sns-ico{width:28px;height:28px;border-radius:8px}
+.sns--foot .sns-ico,.sns--drawer .sns-ico{width:40px;height:40px;border-radius:11px}
+/* 濃い背景の上では、黒いアイコン（X・TikTok）の輪郭が消えないよう細い縁を付ける */
+.sns--foot .sns-ico[data-sns="x"],.sns--foot .sns-ico[data-sns="tiktok"],
+.sns--drawer .sns-ico[data-sns="x"],.sns--drawer .sns-ico[data-sns="tiktok"]{box-shadow:0 0 0 1px rgba(255,255,255,.28)}
+.sns--foot .sns-ico[data-sns="facebook"],.sns--drawer .sns-ico[data-sns="facebook"]{border-radius:50%}
+
+.sns-toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));z-index:120;max-width:calc(100vw - 32px);
+  transform:translate(-50%,12px);opacity:0;padding:10px 18px;border-radius:999px;background:rgba(6,26,66,.94);color:#fff;
+  font-size:13px;line-height:1.5;text-align:center;pointer-events:none;transition:opacity .25s ease,transform .25s ease;
+  box-shadow:0 12px 30px -12px rgba(0,0,0,.5)}
+.sns-toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- ハンバーガーボタン ---------- */
+.menu-btn{display:none;position:relative;flex:none;width:44px;height:44px;border:0;border-radius:12px;cursor:pointer;
+  background:linear-gradient(135deg,var(--navy),var(--royal));box-shadow:0 8px 18px -10px rgba(10,42,102,.75)}
+.menu-btn span{position:absolute;left:12px;right:12px;height:2px;border-radius:2px;background:#fff;
+  transition:transform .3s ease,opacity .2s ease,top .3s ease,right .3s ease}
+.menu-btn span:nth-child(1){top:15px}
+.menu-btn span:nth-child(2){top:21px;right:18px;background:var(--mint)}
+.menu-btn span:nth-child(3){top:27px}
+.menu-btn[aria-expanded="true"] span:nth-child(1){top:21px;transform:rotate(45deg)}
+.menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
+.menu-btn[aria-expanded="true"] span:nth-child(3){top:21px;transform:rotate(-45deg)}
+.menu-btn:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+
+@media(max-width:1100px){
+  .gnav,.sns--head{display:none}
+  .bar .btn{margin-left:auto}
+  .menu-btn{display:block}
+}
+@media(max-width:860px){.bar{gap:10px}}
+@media(max-width:360px){.bar .btn{padding:8px 12px;font-size:13px}}
+
+/* ---------- スライドメニュー ---------- */
+.drawer-overlay{position:fixed;inset:0;z-index:98;background:rgba(6,26,66,.5);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s}
+.drawer{position:fixed;top:0;right:0;z-index:99;height:100vh;height:100dvh;width:min(88vw,380px);
+  display:flex;flex-direction:column;color:#fff;overflow-y:auto;overscroll-behavior:contain;
+  padding:0 22px calc(24px + env(safe-area-inset-bottom));
+  background:
+    radial-gradient(120% 55% at 100% 0%,rgba(63,208,160,.30),transparent 60%),
+    radial-gradient(90% 45% at 0% 100%,rgba(23,71,184,.60),transparent 62%),
+    linear-gradient(170deg,var(--navy-deep) 0%,var(--navy) 100%);
+  box-shadow:-24px 0 60px -20px rgba(0,0,0,.5);
+  transform:translateX(100%);visibility:hidden;transition:transform .38s cubic-bezier(.2,.8,.2,1),visibility .38s}
+.drawer.is-open{transform:none;visibility:visible}
+.drawer-overlay.is-open{opacity:1;visibility:visible}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;gap:12px;height:64px;flex:none}
+.drawer-head img{display:block;height:30px;width:auto}
+.drawer-close{flex:none;width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);
+  color:#fff;font-size:24px;line-height:1;cursor:pointer}
+.drawer-close:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+/* 心拍のライン（開いたときに描かれる） */
+.drawer-pulse{display:block;flex:none;width:100%;height:26px;margin:2px 0 4px}
+.drawer-pulse path{fill:none;stroke:url(#pulse-g);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:240;stroke-dashoffset:240}
+.drawer.is-open .drawer-pulse path{animation:pulse-draw 1.4s ease .15s forwards}
+@keyframes pulse-draw{to{stroke-dashoffset:0}}
+
+.drawer nav{display:block}
+.drawer-nav ol{list-style:none;margin:0;padding:0}
+.drawer-nav li{border-bottom:1px solid rgba(255,255,255,.12);opacity:0;transform:translateX(16px);
+  transition:opacity .35s ease,transform .35s ease}
+.drawer.is-open .drawer-nav li{opacity:1;transform:none;transition-delay:calc(var(--i,1) * 45ms + 80ms)}
+.drawer-nav a{display:flex;align-items:center;gap:14px;min-height:54px;padding:6px 4px;color:#fff;text-decoration:none;font-size:16px;font-weight:700}
+.drawer-nav .en{width:68px;flex:none;font-size:10.5px;letter-spacing:.16em;color:var(--mint);font-weight:700}
+.drawer-nav a::after{content:"";flex:none;margin-left:auto;width:7px;height:7px;border-top:2px solid rgba(255,255,255,.55);border-right:2px solid rgba(255,255,255,.55);transform:rotate(45deg)}
+.drawer-nav a:hover,.drawer-nav a:active{color:var(--gold-l)}
+.drawer-cta{display:block;flex:none;text-align:center;margin:22px 0 0;padding:15px 20px;font-size:16px}
+.drawer-sns-label{margin:24px 0 10px;font-size:12px;font-weight:700;letter-spacing:.14em;color:#b9c6dc}
+.sns--drawer{flex-wrap:wrap;gap:8px}
+.sns--drawer .sns-ico{width:38px;height:38px;border-radius:10px}
+.drawer-note{margin-top:auto;padding-top:22px;font-size:12px;color:#8fa0bd}
+html.nav-lock,html.nav-lock body{overflow:hidden}
+@media(min-width:1101px){.drawer,.drawer-overlay{display:none}}
+@media(max-height:560px){.drawer-nav a{min-height:44px}.drawer-pulse{display:none}}
+
+/* ---------- フッター ---------- */
+.foot-top{display:flex;align-items:center;justify-content:space-between;gap:20px 32px;flex-wrap:wrap;
+  padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,.1)}
+.foot-logo{display:block;line-height:0}
+.foot-logo img{display:block;height:46px;width:auto}
+.foot-sns{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.foot-sns-label{font-size:12px;letter-spacing:.14em;color:#b9c6dc;font-weight:700}
+@media(max-width:640px){
+  .foot-top{flex-direction:column;align-items:flex-start}
+  .foot-logo img{height:38px}
+  .sns--foot{flex-wrap:wrap}
+  .sns--foot .sns-ico{width:38px;height:38px;border-radius:10px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .drawer,.drawer-overlay,.drawer-nav li,.menu-btn span,.gnav a::after{transition:none}
+  .drawer-pulse path{animation:none;stroke-dashoffset:0}
+}

@@ -1,0 +1,30 @@
+# 注意：GitHub Pages のプロジェクトサイト（/kenko-keiei-project-pages/）では、このファイルは検索エンジンに読まれない
+# （robots.txt はドメイン直下のものだけが有効）。独自ドメインに移したときに、そのまま有効になる。
+# それまではサイトマップを Google Search Console から送信する。
+
+User-agent: *
+Allow: /
+
+# AIの検索・回答エンジンにも巡回を許可する（LLMO）
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://fujikurakenjiwork-beep.github.io/kenko-keiei-project-pages/sitemap.xml

@@ -53,7 +53,8 @@
   display:flex;align-items:center;gap:10px;padding:12px 12px 12px 16px;
   background:var(--kk-navy);color:#fff;flex:none;
 }
-.kkbot-avatar{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;flex:none}
+.kkbot-avatar{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;flex:none;box-shadow:0 0 0 2px rgba(236,213,154,.6)}
+.kkbot-avatar img{display:block;width:72%;height:auto}
 .kkbot-title{flex:1;min-width:0;line-height:1.35}
 .kkbot-title strong{display:block;font-size:15px;color:#fff}
 .kkbot-title small{display:block;font-size:12px;color:#cfd8e3}
