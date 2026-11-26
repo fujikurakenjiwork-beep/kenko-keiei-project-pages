@@ -1,0 +1,154 @@
+/* 健康経営プロジェクト 案内チャットボット */
+.kkbot{
+  --kk-navy:var(--navy,#14325a);
+  --kk-accent:var(--accent,#1f7a4d);
+  --kk-ink:var(--ink,#16202c);
+  --kk-sub:var(--ink-sub,#46505c);
+  --kk-line:var(--line,#dde2e8);
+  --kk-bg:#ffffff;
+  --kk-bg-alt:#f3f5f7;
+  --kk-gap:clamp(12px,3vw,24px);
+  --kk-launcher:60px;
+  font-family:var(--font,"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif);
+  line-height:1.7;
+}
+
+/* ---- 右下の丸ボタン ---- */
+.kkbot-launcher{
+  position:fixed;z-index:90;
+  right:calc(var(--kk-gap) + env(safe-area-inset-right,0px));
+  bottom:calc(var(--kk-gap) + env(safe-area-inset-bottom,0px));
+  width:var(--kk-launcher);height:var(--kk-launcher);border-radius:50%;
+  border:0;cursor:pointer;color:#fff;background:var(--kk-accent);
+  display:grid;place-items:center;
+  box-shadow:0 6px 20px rgba(20,50,90,.28);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.kkbot-launcher:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(20,50,90,.32)}
+.kkbot-launcher:focus-visible{outline:3px solid var(--kk-navy);outline-offset:3px}
+.kkbot-badge{
+  position:absolute;top:-2px;right:-2px;width:20px;height:20px;border-radius:50%;
+  background:var(--kk-navy);color:#fff;font-size:12px;font-weight:700;line-height:20px;text-align:center;
+  border:2px solid #fff;
+}
+
+/* ---- パネル（PC・タブレット） ---- */
+.kkbot-panel{
+  position:fixed;z-index:91;
+  right:calc(var(--kk-gap) + env(safe-area-inset-right,0px));
+  bottom:calc(var(--kk-gap) + var(--kk-launcher) + 14px + env(safe-area-inset-bottom,0px));
+  width:min(380px,calc(100vw - var(--kk-gap) * 2));
+  height:min(620px,calc(100vh - var(--kk-launcher) - var(--kk-gap) * 2 - 40px));
+  height:min(620px,calc(100dvh - var(--kk-launcher) - var(--kk-gap) * 2 - 40px));
+  display:flex;flex-direction:column;overflow:hidden;
+  background:var(--kk-bg);color:var(--kk-ink);
+  border:1px solid var(--kk-line);border-radius:16px;
+  box-shadow:0 18px 48px rgba(20,32,44,.22);
+  animation:kkbot-in .22s ease;
+}
+.kkbot-panel[hidden]{display:none}
+@keyframes kkbot-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.kkbot-head{
+  display:flex;align-items:center;gap:10px;padding:12px 12px 12px 16px;
+  background:var(--kk-navy);color:#fff;flex:none;
+}
+.kkbot-avatar{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;flex:none}
+.kkbot-title{flex:1;min-width:0;line-height:1.35}
+.kkbot-title strong{display:block;font-size:15px;color:#fff}
+.kkbot-title small{display:block;font-size:12px;color:#cfd8e3}
+.kkbot-close{
+  width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:#fff;cursor:pointer;
+  display:grid;place-items:center;flex:none;
+}
+.kkbot-close:hover{background:rgba(255,255,255,.14)}
+.kkbot-close:focus-visible{outline:2px solid #fff;outline-offset:1px}
+
+.kkbot-log{
+  flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+  padding:16px 14px 8px;background:var(--kk-bg-alt);
+  display:flex;flex-direction:column;gap:8px;
+}
+.kkbot-row{display:flex}
+.kkbot-user{justify-content:flex-end}
+.kkbot-bubble{
+  max-width:86%;padding:10px 13px;border-radius:14px;font-size:14px;
+  overflow-wrap:anywhere;word-break:normal;
+}
+.kkbot-bot .kkbot-bubble{background:#fff;color:var(--kk-ink);border:1px solid var(--kk-line);border-top-left-radius:4px}
+.kkbot-user .kkbot-bubble{background:var(--kk-navy);color:#fff;border-top-right-radius:4px}
+.kkbot-bubble b{color:var(--kk-navy)}
+.kkbot-link{
+  display:block;margin:4px 0;padding:9px 12px;border-radius:8px;text-align:center;
+  background:var(--kk-accent);color:#fff !important;text-decoration:none;font-weight:700;
+}
+.kkbot-link:hover{opacity:.9}
+.kkbot-typing{display:flex;gap:4px;align-items:center;padding:12px 14px}
+.kkbot-typing i{width:6px;height:6px;border-radius:50%;background:#9aa6b2;animation:kkbot-dot 1s infinite ease-in-out}
+.kkbot-typing i:nth-child(2){animation-delay:.15s}
+.kkbot-typing i:nth-child(3){animation-delay:.3s}
+@keyframes kkbot-dot{0%,80%,100%{opacity:.3;transform:none}40%{opacity:1;transform:translateY(-3px)}}
+
+.kkbot-chips{
+  flex:none;display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px;
+  max-height:34%;overflow-y:auto;background:var(--kk-bg-alt);border-top:1px solid var(--kk-line);
+}
+.kkbot-chips:empty{display:none}
+.kkbot-chip{
+  border:1.5px solid var(--kk-accent);background:#fff;color:var(--kk-accent);
+  border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer;
+  font-family:inherit;line-height:1.4;
+}
+.kkbot-chip:hover{background:var(--kk-accent);color:#fff}
+.kkbot-chip:focus-visible{outline:2px solid var(--kk-navy);outline-offset:2px}
+
+.kkbot-form{flex:none;display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--kk-line);background:#fff}
+.kkbot-input{
+  flex:1;min-width:0;height:42px;padding:0 12px;border:1px solid var(--kk-line);border-radius:10px;
+  font-size:16px; /* 16px未満だとiPhoneで入力時に画面が拡大される */
+  font-family:inherit;color:var(--kk-ink);background:#fff;
+}
+.kkbot-input:focus{outline:2px solid var(--kk-accent);outline-offset:0;border-color:transparent}
+.kkbot-send{
+  width:42px;height:42px;flex:none;border:0;border-radius:10px;cursor:pointer;
+  background:var(--kk-accent);color:#fff;display:grid;place-items:center;
+}
+.kkbot-send:focus-visible{outline:2px solid var(--kk-navy);outline-offset:2px}
+.kkbot-foot{
+  flex:none;margin:0;padding:6px 12px calc(8px + env(safe-area-inset-bottom,0px));
+  font-size:11px;line-height:1.5;color:var(--kk-sub);background:#fff;text-align:center;
+}
+
+/* ---- スマホ：下からのシート表示、ボタンは小さめ ---- */
+@media (max-width:640px){
+  .kkbot{--kk-launcher:56px;--kk-gap:16px}
+  .kkbot-panel{
+    left:0;right:0;bottom:0;width:100%;
+    height:88vh;height:88dvh;max-height:none;
+    border-radius:16px 16px 0 0;border-left:0;border-right:0;border-bottom:0;
+    animation-name:kkbot-up;
+  }
+  .kkbot.is-open .kkbot-launcher{display:none} /* 開いている間は、ヘッダーの×で閉じる */
+  .kkbot-bubble{max-width:90%}
+  html.kkbot-lock,html.kkbot-lock body{overflow:hidden} /* 背面のページがスクロールしないように */
+}
+@keyframes kkbot-up{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+
+/* ---- 横向きのスマホなど、高さが低い画面 ---- */
+@media (max-height:520px){
+  .kkbot-panel{height:calc(100vh - 16px);height:calc(100dvh - 16px);bottom:8px}
+  .kkbot.is-open .kkbot-launcher{display:none}
+  /* 選択肢は横スクロールの1行にして、会話欄の高さを確保する */
+  .kkbot-chips{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;max-height:none;padding:6px 12px}
+  .kkbot-chip{flex:none}
+  .kkbot-head{padding:6px 8px 6px 12px}
+  .kkbot-avatar{width:28px;height:28px}
+  .kkbot-form{padding:6px 12px}
+  .kkbot-foot{padding:3px 12px calc(4px + env(safe-area-inset-bottom,0px));font-size:10px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .kkbot-panel,.kkbot-typing i{animation:none}
+  .kkbot-launcher{transition:none}
+}
+@media print{.kkbot{display:none}}

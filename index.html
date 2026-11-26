@@ -125,6 +125,7 @@ footer a{color:var(--navy)}
 .review{background:#fff4cc;color:var(--ink);font-size:13px;line-height:1.6;text-align:center;padding:8px var(--pad);border-bottom:1px solid #f0dc8a}
 .review strong{color:var(--ink)}
 </style>
+<link rel="stylesheet" href="./chatbot.css">
 </head>
 
 <body>
@@ -309,5 +310,7 @@ if('IntersectionObserver' in window){
   document.querySelectorAll('.fade').forEach(el=>io.observe(el));
 }else{document.querySelectorAll('.fade').forEach(el=>el.classList.add('on'));}
 </script>
+<!-- 案内チャットボット（条件分岐型。回答の文面は chatbot.js 内） -->
+<script src="./chatbot.js" defer></script>
 </body>
 </html>
